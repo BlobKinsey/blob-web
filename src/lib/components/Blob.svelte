@@ -1,6 +1,11 @@
 <script lang="ts">
+  import { firestore } from "$lib/firebase";
+  import type { Player } from "$lib/models/Player";
+  import { currentGame, phoneResponses } from "$lib/stores";
+  import { docStore } from "@ponymakers/sveltefire";
   import { onMount } from "svelte";
 	import { fly } from "svelte/transition"
+	import { page } from '$app/stores';
 
   let words = [
     "BlobKinsey™",
@@ -9,11 +14,27 @@
     "Boris",
   ]
 
+  let id = $page.url.searchParams.get('id');
+  const player = docStore<Player>(firestore, `players/${id}`);
+
 
   type Point = {
     x: number;
     y: number;
     isEnd?: boolean;
+  }
+
+  currentGame
+  function respond(point:Point) {
+    if($player && phoneResponses){
+        
+      let responseObj = {
+        id: $player.name,
+        player: $player,
+        response:point
+      }
+      phoneResponses?.add?.(responseObj)
+    }
   }
 
   type Circle = {
@@ -22,12 +43,20 @@
     r: number;
   }
 
-  let mouillettes:Point[] = [
+  let BASE_MOUILLETTES:Point[] = [
     {x: 0, y: 0, isEnd: true},
     {x: 100, y: 0, isEnd: true},
     {x: 0, y: 100, isEnd: true},
     {x: 100, y: 100, isEnd: true},
+  ];
+
+  $: mouillettes = [
+    ...BASE_MOUILLETTES,
+    ...$phoneResponses.map(r => (r.response)),
   ]
+  
+  
+
   let anim:Circle[] = []
 
   let svg:SVGSVGElement;
@@ -47,7 +76,8 @@
     // check if inside 0,0 100,100
     if(svgPt.x > 0 && svgPt.x < 100 && svgPt.y > 0 && svgPt.y < 100){
       console.log("inside");
-    mouillettes=[...mouillettes, {x: svgPt.x, y: svgPt.y}]
+      respond({x: svgPt.x, y: svgPt.y, isEnd: false})
+      //mouillettes=[...mouillettes, {x: svgPt.x, y: svgPt.y}]
     }else{
       console.log("outside");
       playAnim();
@@ -169,6 +199,7 @@
   bind:this={svg}
   viewBox="-10 -10 120 120" 
   width="100%"
+  height="70vh"
   xmlns="http://www.w3.org/2000/svg" 
   class="blob-maze" 
   on:click={onSvgClick}
@@ -210,7 +241,7 @@
         r="1" />
     {/each}
 
-    <path class="fill-none stroke-yellow-200 stroke-1 "
+    <path class="fill-none stroke-yellow-200 stroke-1 hidden"
       d="{toSvgPath([{x:50,y:50}, ...getNearestMouillettesPath(mouillettes)])}" />
 
     <g class="opacity-70">
