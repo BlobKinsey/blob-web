@@ -29,8 +29,8 @@
   const BASE_MOUILLETTES:Point[] = [
     {x: 0, y: 0, isEnd: true, responseIndex: 0},
     {x: 100, y: 0, isEnd: true, responseIndex: 1},
-    {x: 0, y: 100, isEnd: true, responseIndex: 2},
-    {x: 100, y: 100, isEnd: true, responseIndex: 3},
+    {x: 0, y: 100, isEnd: true, responseIndex: 3},
+    {x: 100, y: 100, isEnd: true, responseIndex: 2},
   ];
 
 	function startGame(){

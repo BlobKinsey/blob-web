@@ -9,6 +9,8 @@
   import type { Point } from "$lib/models/Question";
   import BlobBg from "./BlobBG.svelte";
   import Mouillette from "./Mouillette.svelte";
+  import BlobCentral from "./BlobCentral.svelte";
+  import BlobGrow from "./BlobGrow.svelte";
 
   $: question = $mainState?.currentQuestion;
   $: words = question?.rounds[$mainState?.currentRound || 0] || [];
@@ -149,16 +151,22 @@
         {mouillette}/>
     {/each}
 
+    <BlobCentral/>
+    <!-- <BlobGrow/> -->
 
     <g class="opacity-70">
       {#each anim as c, i (i)}
-        <circle class="fill-yellow-600 " 
-          in:fadeScale={{delay: i*1000, duration: 1000, baseScale: 0, origin: `${c.x} ${c.y}`}}
+
+        <g class="fill-yellow-600 " 
+          in:fadeScale={{delay: i*1000, duration: 1000, baseScale: 0, origin: `${c.x} ${c.y}`, easing: x => Math.sqrt(x)}}
           out:fadeScale={{delay: i*100, duration: 100, baseScale: 0, origin: `${c.x} ${c.y}`}}
           style="transform-box: fill-box; transform-origin: center;"
           cx="{c.x}"
           cy="{c.y}"
-          r="{c.r}" />
+          delay={i*1000}
+          r="{c.r}" >
+          <BlobGrow {...c}/>
+        </g>
       {/each}
     </g>
   </g>
