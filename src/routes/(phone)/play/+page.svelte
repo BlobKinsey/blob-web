@@ -39,9 +39,13 @@
 	}
 
 	function nextQuestion(){
+		$mainState.mode = 'game-rounds';
+		$mainState.roundMode = 'shoot';
 		let currentIndex = $mainState?.currentQuestion ? $mainState.currentQuestion?.index : -1;
 		let nextIndex = currentIndex + 1;
 		$mainState.currentRound = 0;
+		$mainState.currentResponse = "";
+		clearPhoneResponses()
 		$mainState.currentQuestion = $questionPools[0].questions[nextIndex];
 	}
 
@@ -99,6 +103,12 @@
 		$mainState.roundMode = 'idle';
 		$mainState.blobPath = [];
 	}
+
+
+	function playResponse(){
+		$mainState.mode = 'game-response';
+	}
+
 
 	// $:{
 	// 	if($mainState?.mode == 'game-rounds' && $mainState?.roundMode == 'idle'){
@@ -158,13 +168,16 @@
 			Paul the Blob 
 		</p>
 
-		<div class="absolute top-0 left-0 opacity-50">
-			<!-- <div>question: {$mainState?.currentQuestion}</div> -->
-			<div>r: {$mainState?.currentRoundResponse}</div>
-			<div>r: {$mainState?.currentResponse}</div>
-			<div>$mainState: {$mainState?.mode}</div>
-			<div>isAdmin {isAdmin}</div>
-		</div>
+		{#if isAdmin }
+				
+			<div class="absolute top-0 left-0 opacity-50">
+				<div>q: {$mainState?.currentQuestion?.index}</div>
+				<div>r: {$mainState?.currentRoundResponse}</div>
+				<div>r: {$mainState?.currentResponse}</div>
+				<div>$mainState: {$mainState?.mode}</div>
+				<div>isAdmin {isAdmin}</div>
+			</div>
+		{/if}
 
 		<div>
 			{#if $mainState?.mode == 'game-context'}
@@ -195,13 +208,18 @@
 
 {#if isAdmin}
 	<div class="flex flex-col absolute top-0 right-0">
-		<button on:click={() => startGame()}>Start</button>
-		<button on:click={() => nextQuestion()}>Next</button>
-		<button on:click={() => startRound()}>Start Round</button>
-		<button on:click={() => showResponse()}>Show Response</button>
-		<button on:click={() => growBlob()}>Grow blob</button>
-		<button on:click={() => validateRound()}>Validate Round</button>
-		<button on:click={() => nextRound()}>Next Round</button>
-		<button on:click={() => initMainState()}>Reset</button>
+		<button class="btn" on:click={() => startGame()}>Start</button>
+		------
+		<button class="btn" on:click={() => nextQuestion()}>Next</button>
+		-------
+		<button class="btn" on:click={() => startRound()}>Start Round</button>
+		<button class="btn" on:click={() => showResponse()}>Show Response</button>
+		<button class="btn" on:click={() => growBlob()}>Grow blob</button>
+		<button class="btn" on:click={() => validateRound()}>Validate Round</button>
+		<button class="btn" on:click={() => nextRound()}>Next Round</button>
+		-------
+		<button class="btn" on:click={() => playResponse()}>RESPONSE</button>
+		------
+		<button class="btn" on:click={() => initMainState()}>Reset</button>
 	</div>
 {/if}

@@ -32,25 +32,25 @@
   </header>
 
 
-  Slt té ki? ^^
 
 
   <div class="flex flex-col ">
     {#each $players as player}
-    <a class="flex items-center" href={`/play?id=${player.id}`}>
+    <a  class=" flex items-center bg-black text-white btn" href={`/play?id=${player.id}`}>
       <span class="">{player.name}</span>
     </a>
     {:else}
     {/each}
   <div class="card bg-lime-400 sflex items-center flex-col">
-    <span class="ml-2">"slt moi cé"</span>
+    <span class="ml-2">"My name is"</span>
     <input 
-      class=" bg-white text-black card" 
+      class=" bg-black text-white card" 
       type="text" 
       placeholder="John" 
       bind:value={name}
       />
-    <button on:click={()=>createPlayer()}>CREER</button>
+    <button class="flex items-center bg-black text-white btn"
+     on:click={()=>createPlayer()}>CREER</button>
   </div>
    
   </div>

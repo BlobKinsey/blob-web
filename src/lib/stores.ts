@@ -9,7 +9,7 @@ import type { Player } from './models/Player';
 import type { PhoneResponse, Question, QuestionPool } from './models/Question';
 import type { Timer } from './models/Timer';
 
-export const mainState = docStore<MainDisplayState>(firestore, `displays/_main_dev`);
+export const mainState = docStore<MainDisplayState>(firestore, `displays/_main`);
 export const mainQuestion = docStore<Question>(firestore, `displays/_main_question`);
 
 export const phoneState = docStore<PhoneDisplayState>(firestore, `displays/_phone`);

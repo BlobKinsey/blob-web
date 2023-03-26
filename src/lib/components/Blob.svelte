@@ -7,6 +7,7 @@
 	import { fly } from "svelte/transition"
 	import { page } from '$app/stores';
   import type { Point } from "$lib/models/Question";
+  import BlobBg from "./BlobBG.svelte";
 
   $: question = $mainState?.currentQuestion;
   $: words = question?.rounds[$mainState?.currentRound || 0] || [];
@@ -114,7 +115,6 @@
 
 
 <div> Q: {question?.question} </div>
-<div> Q: {JSON.stringify(words)} </div>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svg 
   bind:this={svg}
@@ -123,39 +123,39 @@
   height="70vh"
   xmlns="http://www.w3.org/2000/svg" 
   class="blob-maze" 
-  on:click={onSvgClick}
-  
-  
+  on:click={onSvgClick}  
   >
+
+  <BlobBg/>
   
 
-  <circle class="fill-blue-600 opacity-25"
+  <!-- <circle class="fill-blue-600 opacity-25"
       cx="50"
       cy="50"
-      r={150/2} />
+      r={150/2} /> -->
   <!-- text on 4 corners -->
-  <g class="fill-white">
-    <text x="-8" y="-2" class="text" font-size="3" text-anchor="start">
-      {words[0]}
+  <g class="fill-black">
+    <text x="-20" y="-10" class="text" font-size="3" text-anchor="start">
+      {words[0] || ""}
     </text>
-    <text x="108" y="-2" class="text" font-size="3" text-anchor="end">
-      {words[1]}
+    <text x="115" y="-8" class="text" font-size="3" text-anchor="end">
+      {words[1] || ""}
     </text>
-    <text x="-8" y="105" class="text" font-size="3" text-anchor="start">
-      {words[2]}
+    <text x="-20" y="105" class="text" font-size="3" text-anchor="start">
+      {words[2] || ""}
     </text>
-    <text x="108" y="105" class="text" font-size="3" text-anchor="end">
-      {words[3]}
+    <text x="115" y="105" class="text" font-size="3" text-anchor="end">
+      {words[3] || ""}
     </text>
   </g>
 
   <g>
 
 
-  <circle class="fill-yellow-600"
+  <circle class="fill-yellow-600 opacity-30"
     cx="50"
     cy="50"
-    r="1" />
+    r="4" />
 
     {#each mouillettes as mouillette}
       <circle class="fill-yellow-600"
@@ -166,7 +166,7 @@
 
 
     <g class="opacity-70">
-      {#each anim as c, i (c)}
+      {#each anim as c, i (i)}
         <circle class="fill-yellow-600 " 
           in:fadeScale={{delay: i*1000, duration: 1000, baseScale: 0, origin: `${c.x} ${c.y}`}}
           out:fadeScale={{delay: i*100, duration: 100, baseScale: 0, origin: `${c.x} ${c.y}`}}
@@ -178,3 +178,5 @@
     </g>
   </g>
 </svg>
+
+<div> R: {$mainState?.currentResponse} </div>
