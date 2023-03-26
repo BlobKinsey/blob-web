@@ -8,6 +8,7 @@
 	import { page } from '$app/stores';
   import type { Point } from "$lib/models/Question";
   import BlobBg from "./BlobBG.svelte";
+  import Mouillette from "./Mouillette.svelte";
 
   $: question = $mainState?.currentQuestion;
   $: words = question?.rounds[$mainState?.currentRound || 0] || [];
@@ -134,20 +135,6 @@
       cy="50"
       r={150/2} /> -->
   <!-- text on 4 corners -->
-  <g class="fill-black">
-    <text x="-20" y="-10" class="text" font-size="3" text-anchor="start">
-      {words[0] || ""}
-    </text>
-    <text x="115" y="-8" class="text" font-size="3" text-anchor="end">
-      {words[1] || ""}
-    </text>
-    <text x="-20" y="105" class="text" font-size="3" text-anchor="start">
-      {words[2] || ""}
-    </text>
-    <text x="115" y="105" class="text" font-size="3" text-anchor="end">
-      {words[3] || ""}
-    </text>
-  </g>
 
   <g>
 
@@ -158,10 +145,8 @@
     r="4" />
 
     {#each mouillettes as mouillette}
-      <circle class="fill-yellow-600"
-        cx="{mouillette.x}"
-        cy="{mouillette.y}"
-        r="1" />
+      <Mouillette class="fill-yellow-600"
+        {mouillette}/>
     {/each}
 
 
@@ -176,6 +161,32 @@
           r="{c.r}" />
       {/each}
     </g>
+  </g>
+
+  <g class="fill-black">
+    <foreignObject x="-22" y="-25" width="40" height="40">
+      <div xmlns="http://www.w3.org/1999/xhtml" class="text-[4px] text-black font-bold flex items-center justify-center h-full text-center " >
+        <div>{words[0] || ""}</div>
+      </div>
+    </foreignObject>
+
+    <foreignObject x="85" y="-25" width="40" height="40">
+      <div xmlns="http://www.w3.org/1999/xhtml" class="text-[4px] text-black font-bold flex items-center justify-center h-full text-center " >
+        <div>{words[1] || ""}</div>
+      </div>
+    </foreignObject>
+
+    <foreignObject x="85" y="85" width="40" height="40">
+      <div xmlns="http://www.w3.org/1999/xhtml" class="text-[4px] text-black font-bold flex items-center justify-center h-full text-center " >
+        <div>{words[2] || ""}</div>
+      </div>
+    </foreignObject>
+
+    <foreignObject x="-22" y="85" width="40" height="40" >
+      <div xmlns="http://www.w3.org/1999/xhtml" class="text-[4px] text-black font-bold flex items-center justify-center h-full text-center  " >
+        <div>{words[3] || ""}</div>
+      </div>
+    </foreignObject>
   </g>
 </svg>
 

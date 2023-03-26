@@ -39,16 +39,21 @@
 	}
 
 	function nextQuestion(){
-		$mainState.mode = 'game-rounds';
+		$mainState.mode = 'game-context';
 		$mainState.roundMode = 'shoot';
 		let currentIndex = $mainState?.currentQuestion ? $mainState.currentQuestion?.index : -1;
 		let nextIndex = currentIndex + 1;
 		$mainState.currentRound = 0;
 		$mainState.currentResponse = "";
+		$mainState.mouillettes = BASE_MOUILLETTES;
 		clearPhoneResponses()
 		$mainState.currentQuestion = $questionPools[0].questions[nextIndex];
 	}
 
+	function modeContext(){
+		$mainState.mode = 'game-context';
+
+	}
 	function startRound(){
 		$mainState.mode = 'game-rounds';
 		$mainState.roundMode = 'shoot';
@@ -208,9 +213,11 @@
 
 {#if isAdmin}
 	<div class="flex flex-col absolute top-0 right-0">
-		<button class="btn" on:click={() => startGame()}>Start</button>
+		<button class="btn" on:click={() => nextQuestion()}>Start</button>
 		------
 		<button class="btn" on:click={() => nextQuestion()}>Next</button>
+		<button class="btn" on:click={() => modeContext()}>ModeContext</button>
+
 		-------
 		<button class="btn" on:click={() => startRound()}>Start Round</button>
 		<button class="btn" on:click={() => showResponse()}>Show Response</button>
