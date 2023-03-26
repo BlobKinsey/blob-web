@@ -157,10 +157,14 @@
 		<p>
 			Paul the Blob 
 		</p>
-		<div>question: {$mainState?.currentQuestion}</div>
-		<div>$mainState: {$mainState?.mode}</div>
-		<div>isAdmin {isAdmin}</div>
 
+		<div class="absolute top-0 left-0 opacity-50">
+			<!-- <div>question: {$mainState?.currentQuestion}</div> -->
+			<div>r: {$mainState?.currentRoundResponse}</div>
+			<div>r: {$mainState?.currentResponse}</div>
+			<div>$mainState: {$mainState?.mode}</div>
+			<div>isAdmin {isAdmin}</div>
+		</div>
 
 		<div>
 			{#if $mainState?.mode == 'game-context'}
