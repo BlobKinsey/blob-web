@@ -1,27 +1,32 @@
 import type { Player } from "./Player";
 
-export type Question {
-  // id: string,
-  poolId: string,
-  statement: string,
+export type Question = {
+  question: string,
+  interviewer: string,
+  situation: string,
   index: number,
-  proposals: Proposal[],
-  response?: string,
-  goodAnswer?: string,
+  rounds: Round[],
+  positions: any[],
+  currentResposes?: string,
 }
 
-export type Proposal = {
-  id: string,
-  text: string,
-  playerId?: string,
-};
+export type Round = string[];
+
 
 export type PhoneResponse = {
-  response?: any,
+  response?: Point,
   player: Player,
 }
 
 export type QuestionPool = {
   title: string,
   questions: Question[],
+}
+
+
+export type Point = {
+  x: number;
+  y: number;
+  isEnd?: boolean;
+  responseIndex?: number;
 }

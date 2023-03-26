@@ -1,37 +1,41 @@
 import type { Player } from "./Player";
-import type { Proposal, Question } from "./Question";
+import type { Point, Proposal, Question } from "./Question";
+import type { Timer } from "./Timer";
 
 export const displaysStates = [
-  "idle",
-  "title",
-  "quizz",
-  "scores",
-  "pre-game"
+  "lobby",
+  "game-context",
+  "game-rounds",
+  "game-response",
+  "scores"
 ] as const
-type mode = typeof displaysStates[number]
+
+export const roundStates = [
+  "idle",
+  "tutorial",
+  "shoot",
+  "responses",
+  "grow",
+  "validate",
+] as const
+
+export type Circle = {
+  x: number;
+  y: number;
+  r: number;
+}
+
+type Mode = typeof displaysStates[number]
+type RoundMode = typeof roundStates[number]
 
 export type MainDisplayState ={
-  mode: mode,
-  showQuestion: boolean,
-  showAnswer: boolean,
-  showProposals: boolean,
-  showTimer: boolean,
-  canAnswer: boolean,
-  currentPlayer?: Player,
+  mode: Mode,
+  roundMode: RoundMode,
   currentQuestion?: Question,
-  selectedProposal?: Proposal,
-
-
+  currentRound: number,
+  currentResponse?: string,
+  mouillettes: Point[],
+  blobPath: Circle[],
+  currentRoundResponse?: string,
+  timer?:Timer
 } 
-
-
-export type PhoneDisplayState ={
-  mode: mode,
-  showQuestion: boolean,
-  showAnswer: boolean,
-  showProposals: boolean,
-  showTimer: boolean,
-  canAnswer: boolean,
-  currentQuestion?: Question,
-} 
-
